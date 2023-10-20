@@ -15,9 +15,41 @@ module.exports = (sequelize, DataTypes) => {
         phone:{ 
             type:DataTypes.STRING 
         },
+        dob:{ 
+            type:DataTypes.DATEONLY 
+        },
+        gender:{ 
+            type:DataTypes.STRING 
+        },
         image:{ 
             type:DataTypes.STRING 
         },
+        bio:{ 
+            type:DataTypes.TEXT 
+        },
+
+
+        address1:{ 
+            type:DataTypes.TEXT 
+        },
+        address2:{ 
+            type:DataTypes.TEXT 
+        },
+        state:{ 
+            type:DataTypes.TEXT 
+        },
+        city:{ 
+            type:DataTypes.TEXT 
+        },
+        postal:{ 
+            type:DataTypes.TEXT 
+        },
+        country:{ 
+            type:DataTypes.TEXT 
+        },
+
+        
+
         approved:{ 
             type:DataTypes.STRING 
         },

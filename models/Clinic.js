@@ -1,0 +1,17 @@
+module.exports = (sequelize, DataTypes) => {
+    const Clinic = sequelize.define("Clinic", {
+        name:{
+            type:DataTypes.STRING 
+        },
+        address:{
+            type:DataTypes.STRING 
+        },
+        email:{
+            type:DataTypes.STRING 
+        },
+        images:{
+            type:DataTypes.TEXT 
+        },
+    })
+    return Clinic
+}
