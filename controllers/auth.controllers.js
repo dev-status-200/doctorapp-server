@@ -32,7 +32,7 @@ exports.login = (req, res) => {
 };
 
 exports.verifyToken = (req, res) => {
-  res.json({ status:"success" })
+  res.json({ status:"success", isAuthorized:true })
 }
 
 exports.verify = (req, res, next) => {
@@ -42,8 +42,8 @@ exports.verify = (req, res, next) => {
       if(err){
         return res.json({   
           status:"error", 
+          isAuthorized:false,
           message:
-            //err ||
             "Some Error Occured"
         });
       }

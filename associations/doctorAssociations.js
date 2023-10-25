@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { Doctors, Clinic, Education, Experience, Service, Specialization } = require("../models");
+const { Doctors, Clinic, Education, Experience, Service, Specialization, Pricing } = require("../models");
 
 Doctors.hasMany(Clinic,{
     foriegnKey:{
@@ -36,4 +36,11 @@ Doctors.hasMany(Specialization,{
 });
 Specialization.belongsTo(Doctors);
 
-module.exports = { Doctors, Clinic, Education, Experience, Service, Specialization }
+Doctors.hasMany(Pricing,{
+    foriegnKey:{
+        type: DataTypes.INTEGER
+    }
+});
+Pricing.belongsTo(Doctors);
+
+module.exports = { Pricing, Doctors, Clinic, Education, Experience, Service, Specialization }

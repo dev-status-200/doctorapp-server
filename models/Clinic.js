@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING 
         },
         images:{
-            type:DataTypes.TEXT 
+            type:DataTypes.JSON 
         },
     })
     return Clinic
