@@ -118,6 +118,16 @@ exports.clientOtpSend = async(req, res) => {
           console.log('Email sent: ' + info.response);
         }
       });
+      mailSender.sendMail({
+        from:'doctorappwork@gmail.com', to:req.headers.email, subject:`Login Verification Code`, text:content
+      }, function(error, info){
+        console.log(mailOptions)
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
       res.json({status:'success'})
     } else {
       res.json({status:'error', result:'No Email Exists'})
