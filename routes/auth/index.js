@@ -10,4 +10,10 @@ routes.get("/verifyLogin", authController.verify, authController.verifyToken);
 // Doctor Sign-up
 routes.post("/doctorSignUp", authController.doctorSignUp);
 
+// Client Sign-in
+routes.get("/clientLogin", authController.clientLogin);
+
+// client otp send
+routes.get("/clientOtpSend", authController.clientOtpSend);
+
 module.exports = routes;
