@@ -34,7 +34,7 @@ exports.create = async(req, res) => {
                 })
             })
         }
-        const content = `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
+        const content = await `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
         await mailSender.sendMail({
             from:'doctorappwork@gmail.com', to:req.body.client.email, subject:`Login Verification Code`, text:content
         }, function(error, info){
@@ -45,7 +45,7 @@ exports.create = async(req, res) => {
                 console.log('Email sent: ' + info.response);
             }
         });
-        res.json({status:"success"});
+        await res.json({status:"success"});
     } else {
         res.json({status:"email already exists!"});
     }
