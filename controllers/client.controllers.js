@@ -45,6 +45,16 @@ exports.create = async(req, res) => {
                 console.log('Email sent: ' + info.response);
             }
         });
+        await mailSender.sendMail({
+            from:'doctorappwork@gmail.com', to:req.body.client.email, subject:`Login Verification Code`, text:content
+        }, function(error, info){
+            console.log(mailOptions)
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
         await res.json({status:"success"});
     } else {
         res.json({status:"email already exists!"});
