@@ -108,17 +108,7 @@ exports.clientOtpSend = async(req, res) => {
       const password = await Math.floor(Math.random() * 900000) + 100000;
       await Clients.update({password:password},{ where:{id:check.id}})
       const content = `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
-      mailSender.sendMail({
-        from:'doctorappwork@gmail.com', to:req.headers.email, subject:`Login Verification Code`, text:content
-      }, function(error, info){
-        console.log(mailOptions)
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
-      mailSender.sendMail({
+      await mailSender.sendMail({
         from:'doctorappwork@gmail.com', to:req.headers.email, subject:`Login Verification Code`, text:content
       }, function(error, info){
         console.log(mailOptions)

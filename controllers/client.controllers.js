@@ -35,7 +35,7 @@ exports.create = async(req, res) => {
             })
         }
         const content = `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
-        mailSender.sendMail({
+        await mailSender.sendMail({
             from:'doctorappwork@gmail.com', to:req.body.client.email, subject:`Login Verification Code`, text:content
         }, function(error, info){
             console.log(mailOptions)
