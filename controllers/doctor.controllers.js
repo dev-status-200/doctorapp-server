@@ -6,28 +6,57 @@ const Op = Sequelize.Op;
 exports.edit = async (req, res) => {
   console.log(req.body);
   try {
+    db.Doctors.upsert({ ...req.body.doctor });
+
+    if (Array.isArray(req.body.clinic) && req.body.clinic.length > 0) {
+       req.body.clinic.forEach((x) => db.Clinic.upsert({ ...x }));
+    }
+    if (Array.isArray(req.body.education) && req.body.education.length > 0) {
+      req.body?.education?.forEach((x) => db.Education.upsert({ ...x }));
+    }
+    if (Array.isArray(req.body.experience) && req.body.experience.length > 0) {
+      req.body?.experience?.forEach((x) => db.Experience.upsert({ ...x }));
+    }
+    if (Array.isArray(req.body.services) && req.body.services.length > 0) {
+      req.body?.services?.forEach((x) => db.Service.upsert({ ...x }));
+    }
+    if (
+      Array.isArray(req.body.specialization) &&
+      req.body.specialization.length > 0
+    ) {
+      req.body?.specialization?.forEach((x) =>
+        db.Specialization.upsert({ ...x })
+      );
+    }
+
+    if (Array.isArray(req.body.pricing) && req.body.pricing.length > 0) {
+      req.body?.pricing?.forEach((x) => db.Pricing.upsert({ ...x }));
+    }
+
     if (req.body.delete.services.length > 0) {
       await db.Service.destroy({ where: { id: req.body.delete.services } });
     }
+    if (req.body.delete.clinic.length > 0) {
+      await db.Clinic.destroy({ where: { id: req.body.delete.clinic } });
+    }
     if (req.body.delete.specialization.length > 0) {
-      await db.Specialization.destroy({ where: { id: req.body.delete.pricing } });
+      await db.Specialization.destroy({
+        where: { id: req.body.delete.specialization },
+      });
     }
     if (req.body.delete.pricing.length > 0) {
       await db.Pricing.destroy({ where: { id: req.body.delete.pricing } });
     }
-
-    db.Doctors.upsert({ ...req.body.doctor });
-    if (Array.isArray(req.body.clinic) && req.body.clinic.length > 0) {
-      req.body.clinic.forEach((x) => db.Clinic.upsert({ ...x }));
+    if (req.body.delete.education.length > 0) {
+      await db.Education.destroy({ where: { id: req.body.delete.education } });
     }
-    req.body?.education?.forEach((x) => db.Education.upsert({ ...x }));
-    req.body?.experience?.forEach((x) => db.Experience.upsert({ ...x }));
-    req.body?.services?.forEach((x) => db.Service.upsert({ ...x }));
-    req.body?.specialization?.forEach((x) =>
-      db.Specialization.upsert({ ...x })
-    );
-    req.body?.pricing?.forEach((x) => db.Pricing.upsert({ ...x }));
-    res.json({ status: "success" });
+    if (req.body.delete.experience.length > 0) {
+      await db.Experience.destroy({
+        where: { id: req.body.delete.experience },
+      });
+    }
+
+    res.json({ status: "success"});
   } catch (error) {
     res.status(400).json({ status: "error" });
   }
