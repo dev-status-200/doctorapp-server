@@ -1,14 +1,12 @@
-const express = require("express");
-const cors = require('cors');
-const morgan = require('morgan');
-const app = express();
 const bodyParser = require('body-parser');
+const express = require("express");
+const morgan = require('morgan');
 const db = require("./models");
+const cors = require('cors');
+const app = express();
 
-const authRoutes = require('./routes/auth/');
 const doctorRoutes = require('./routes/doctors/');
 const clientRoutes = require('./routes/client/');
-const adminRoutes = require('./routes/admin/');
 
 app.use(morgan('tiny'));
 app.use(cors());
@@ -18,13 +16,11 @@ app.use(bodyParser.json({limit:'100mb', extended:true}));
 app.use(express.json());
 db.sequelize.sync();
 
-const { Doctors, Clinic, Education, Experience, Service, Specialization } = require("./associations/doctorAssociations")
+// const { Doctors, Clinic, Education, Experience, Service, Specialization } = require("./associations/doctorAssociations");
+// const { Relatives, clientDiseases, Clients } = require("./associations/clientAssociations");
 
-app.get("/", (req, res) => { res.json('Welcome To DocApp Server') });
-app.use("/auth", authRoutes);
-app.use("/doctor", doctorRoutes);
+app.get("/", (req, res) => { res.json('DocApp Server') });
 app.use("/clients", clientRoutes);
-app.use("/admin", adminRoutes);
 
 const PORT = process.env.PORT || 8080; 
 
