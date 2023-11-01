@@ -97,7 +97,6 @@ exports.clientLogin = (req, res) => {
   });
 };
 
-
 exports.clientOtpSend = async(req, res) => {
   try {
     const check = await Clients.findOne({
@@ -107,7 +106,7 @@ exports.clientOtpSend = async(req, res) => {
     if(check!=null){
       const password = await Math.floor(Math.random() * 900000) + 100000;
       await Clients.update({password:password},{ where:{id:check.id}})
-      const content = await `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
+      const content = `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
       await mailSender.sendMail({
         from:'doctorappwork@gmail.com', to:req.headers.email, subject:`Login Verification Code`, text:content
       }, function(error, info){
@@ -118,17 +117,7 @@ exports.clientOtpSend = async(req, res) => {
           console.log('Email sent: ' + info.response);
         }
       });
-      await mailSender.sendMail({
-        from:'doctorappwork@gmail.com', to:req.headers.email, subject:`Login Verification Code`, text:content
-      }, function(error, info){
-        console.log(mailOptions)
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
-      await res.json({status:'success'})
+      res.json({status:'success'})
     } else {
       res.json({status:'error', result:'No Email Exists'})
     }
