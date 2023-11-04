@@ -28,5 +28,14 @@ routes.delete("/deleteDoctors", adminController.deleteDoctors);
 // Delete Clinics
 routes.delete("/deleteClinics", adminController.deleteClinics);
 
+// Search Doctors
+routes.get("/searchDoctor", adminController.searchDoctor)
+
+// Search Clients
+routes.get("/searchClient", adminController.searchClients)
+
+// Search Clinics
+routes.get("/searchClinics", adminController.searchClinics)
+
 
 module.exports = routes;
