@@ -1,6 +1,5 @@
-const Sequelize = require("sequelize");
+const { Op } = require("sequelize");
 const db = require("../models");
-const Op = Sequelize.Op;
 
 exports.getAllClients = async (req, res) => {
   const page = parseInt(req.query.page) || 0;
@@ -71,7 +70,7 @@ exports.approveDoctors = async (req, res) => {
 };
 
 exports.approveClients = async (req, res) => {
-  const {approved,id } = req.body;
+  const { approved, id } = req.body;
   try {
     const result = await db.Clients.update(
       { approved: approved },
@@ -126,6 +125,137 @@ exports.createSpeciality = async (req, res) => {
   try {
     const result = await db.Specialities.create({
       ...req.body
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchDoctor = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Doctors.findAll({
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            lastName: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+
+          {
+            gender: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            address1: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            address2: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            state: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            country: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            city: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+        ],
+      },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchClients = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Clients.findAll({
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            lastName: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            weight: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            phone: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            height: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+        ],
+      },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchClinics = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Clinic.findAll({
+      where: {
+        [Op.or]: [
+          {
+            name: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+        ],
+      },
     });
     res.json({ status: "success", result: result });
   } catch (error) {

@@ -31,5 +31,14 @@ routes.delete("/deleteClinics", adminController.deleteClinics);
 // Create Specialities
 routes.post("/createSpeciality", adminController.createSpeciality);
 
+// Search Doctors
+routes.get("/searchDoctor", adminController.searchDoctor)
+
+// Search Clients
+routes.get("/searchClient", adminController.searchClients)
+
+// Search Clinics
+routes.get("/searchClinics", adminController.searchClinics)
+
 
 module.exports = routes;
