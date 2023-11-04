@@ -121,3 +121,14 @@ exports.deleteClinics = async (req, res) => {
     res.status(400).json({ status: "error" });
   }
 };
+
+exports.createSpeciality = async (req, res) => {
+  try {
+    const result = await db.Specialities.create({
+      ...req.body
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};

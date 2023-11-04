@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const jwt = require("jsonwebtoken");
 const db = require("../associations/doctorAssociations");
+const { Specialities } = require("../models");
 const Op = Sequelize.Op;
 
 exports.edit = async (req, res) => {
@@ -74,7 +75,11 @@ exports.getProfile = async (req, res) => {
         { model: db.Pricing },
       ],
     });
-    res.json({ status: "success", result: result });
+    const specialities = await Specialities.findAll({
+      where: { active: "1" },
+      attributes:['name']
+    })
+    res.json({ status: "success", result, specialities });
   } catch (error) {
     res.status(400).json({ status: "error" });
   }
@@ -83,6 +88,7 @@ exports.getProfile = async (req, res) => {
 exports.getTopDoctors = async (req, res) => {
   try {
     const result = await db.Doctors.findAll({
+      limit:3,
       attributes:['id', 'firstName', 'lastName', 'image'],
       include: [
         { 
@@ -93,6 +99,41 @@ exports.getTopDoctors = async (req, res) => {
     });
     res.json({ status: "success", result: result });
   } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchDoctors = async (req, res) => {
+  try {
+    let requirement = {};
+    if(req.headers.type!=""){
+      requirement.name = req.headers.type
+    }
+    const result = await db.Doctors.findAll({
+      attributes:['id', 'firstName', 'lastName', 'image'],
+      include: [
+        { 
+          model: db.Specialization,
+          attributes:['id', 'name'],
+          where:requirement,
+        },
+      ],
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.getSpecialization = async (req, res) => {
+  try {
+    const result = await Specialities.findAll({
+      where: { active: "1" },
+      attributes:['name']
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    console.log(error)
     res.status(400).json({ status: "error" });
   }
 };
