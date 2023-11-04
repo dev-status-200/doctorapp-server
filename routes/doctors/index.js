@@ -7,4 +7,7 @@ routes.post("/edit", authController.edit);
 // Doctor Get Profile
 routes.get("/getProfile", authController.getProfile);
 
+// Doctor Get Profile
+routes.get("/getTopDoctors", authController.getTopDoctors);
+
 module.exports = routes;
