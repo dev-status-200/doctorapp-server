@@ -4,7 +4,6 @@ const db = require("../associations/doctorAssociations");
 const Op = Sequelize.Op;
 
 exports.edit = async (req, res) => {
-  console.log(req.body);
   try {
     db.Doctors.upsert({ ...req.body.doctor });
 
@@ -73,6 +72,23 @@ exports.getProfile = async (req, res) => {
         { model: db.Service },
         { model: db.Specialization },
         { model: db.Pricing },
+      ],
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.getTopDoctors = async (req, res) => {
+  try {
+    const result = await db.Doctors.findAll({
+      attributes:['id', 'firstName', 'lastName', 'image'],
+      include: [
+        { 
+          model: db.Specialization,
+          attributes:['id', 'name'],
+        },
       ],
     });
     res.json({ status: "success", result: result });
