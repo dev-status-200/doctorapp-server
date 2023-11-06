@@ -11,7 +11,7 @@ routes.get("/getDoctors", adminController.getAllDoctors);
 routes.get("/getClinics", adminController.getAllClinics);
 
 // Delete Clients
-routes.delete("/deleteClients", adminController.deleteClients);
+// routes.delete("/deleteClients", adminController.deleteClients);
 
 // Delete Clients
 routes.delete("/deleteClients", adminController.deleteClients);
@@ -27,6 +27,9 @@ routes.delete("/deleteDoctors", adminController.deleteDoctors);
 
 // Delete Clinics
 routes.delete("/deleteClinics", adminController.deleteClinics);
+
+// Create Specialities
+routes.post("/createSpeciality", adminController.createSpeciality);
 
 // Search Doctors
 routes.get("/searchDoctor", adminController.searchDoctor)

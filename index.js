@@ -8,6 +8,7 @@ const app = express();
 const doctorRoutes = require('./routes/doctors/');
 const clientRoutes = require('./routes/client/');
 const authRoutes = require('./routes/auth/');
+const adminRoutes = require('./routes/admin/');
 
 app.use(morgan('tiny'));
 app.use(cors());
@@ -24,6 +25,7 @@ app.get("/", (req, res) => { res.json('DocApp Server') });
 app.use("/clients", clientRoutes);
 app.use("/doctor", doctorRoutes);
 app.use("/auth", authRoutes);
+app.use("/admin", adminRoutes);
 
 const PORT = process.env.PORT || 8080; 
 
