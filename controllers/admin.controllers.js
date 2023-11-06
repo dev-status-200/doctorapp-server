@@ -1,27 +1,264 @@
-const Sequelize = require('sequelize');
+const { Op } = require("sequelize");
 const db = require("../models");
-const Op = Sequelize.Op;
 
+exports.getAllClients = async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const limit = parseInt(req.query.limit) || 5;
 
-exports.getAdminProfile = async (req, res) => {
-    try {
-      const result = await db.Admins.findOne({
-        where: { id: req.headers.id },
-      });
-      res.json({ status: "success", result: result });
-    } catch (error) {
-      res.status(400).json({ status: "error" });
-    }
-  };
-  
+  const zeroBasedPage = Math.max(0, page - 1);
+  const offset = zeroBasedPage * limit;
+  try {
+    const totalItems = await db.Clients.count();
+    const result = await db.Clients.findAll({
+      offset: offset,
+      limit: limit,
+    });
+    res.json({ status: "success", result: result, totalItems: totalItems });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
 
-  exports.getAllDoctors = async (req, res) => {
-    try {
-      const result = await db.Admins.findAll({
-        where: { id: req.headers.id },
-      });
-      res.json({ status: "success", result: result });
-    } catch (error) {
-      res.status(400).json({ status: "error" });
-    }
-  };
+exports.getAllDoctors = async (req, res) => {
+  console.log(req.headers);
+  const page = parseInt(req.headers.page) || 0;
+  const limit = parseInt(req.headers.limit) || 5;
+
+  const zeroBasedPage = Math.max(0, page - 1);
+  const offset = zeroBasedPage * limit;
+  try {
+    const totalItems = await db.Doctors.count();
+    const result = await db.Doctors.findAll({
+      offset: offset,
+      limit: limit,
+    });
+    res.json({ status: "success", result: result, totalItems: totalItems });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.getAllClinics = async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const limit = parseInt(req.query.limit) || 5;
+
+  const zeroBasedPage = Math.max(0, page - 1);
+  const offset = zeroBasedPage * limit;
+  try {
+    const totalItems = await db.Clinic.count();
+    const result = await db.Clinic.findAll({
+      offset: offset,
+      limit: limit,
+    });
+    res.json({ status: "success", result: result, totalItems: totalItems });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.approveDoctors = async (req, res) => {
+  const { approved, id } = req.body;
+  try {
+    const result = await db.Doctors.update(
+      { approved: approved },
+      { where: { id: id } }
+    );
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.approveClients = async (req, res) => {
+  const { approved, id } = req.body;
+  try {
+    const result = await db.Clients.update(
+      { approved: approved },
+      { where: { id: id } }
+    );
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.deleteClients = async (req, res) => {
+  const { id } = req.headers;
+  try {
+    const result = await db.Clients.destroy({
+      where: { id: id },
+      force: true,
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.deleteDoctors = async (req, res) => {
+  const id = req.headers.id;
+  try {
+    const result = await db.Doctors.destroy({
+      where: { id: id },
+      force: true,
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.deleteClinics = async (req, res) => {
+  const { id } = req.headers;
+  try {
+    const result = await db.Clinic.destroy({
+      where: { id: id },
+      force: true,
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.createSpeciality = async (req, res) => {
+  try {
+    const result = await db.Specialities.create({
+      ...req.body
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchDoctor = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Doctors.findAll({
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            lastName: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+
+          {
+            gender: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            address1: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            address2: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            state: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            country: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            city: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+        ],
+      },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchClients = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Clients.findAll({
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            lastName: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            weight: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            phone: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+          {
+            height: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+        ],
+      },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.searchClinics = async (req, res) => {
+  const { searchterm } = req.headers;
+  try {
+    const result = await db.Clinic.findAll({
+      where: {
+        [Op.or]: [
+          {
+            name: {
+              [Op.substring]: `%${searchterm}%`,
+            },
+          },
+          {
+            email: {
+              [Op.substring]: `${searchterm}`,
+            },
+          },
+        ],
+      },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
