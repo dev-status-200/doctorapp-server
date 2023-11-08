@@ -1,44 +1,47 @@
+// Importing the Express Router module
 const routes = require('express').Router();
+
+// Importing the admin controller for handling admin-related actions
 const adminController = require("../../controllers/admin.controllers");
 
-// Get Clients
+// Route to get all clients
 routes.get("/getClients", adminController.getAllClients);
 
-// Get Doctors
+// Route to get all doctors
 routes.get("/getDoctors", adminController.getAllDoctors);
 
-// Get Clinics
+// Route to get all clinics
 routes.get("/getClinics", adminController.getAllClinics);
 
-// Delete Clients
+// Route to delete clients (commented out for potential future use)
 // routes.delete("/deleteClients", adminController.deleteClients);
 
-// Delete Clients
+// Route to delete clients
 routes.delete("/deleteClients", adminController.deleteClients);
 
-// Approve Clients
+// Route to approve clients
 routes.post("/approveClients", adminController.approveClients);
 
-// Approve Doctors
+// Route to approve doctors
 routes.post("/approveDoctors", adminController.approveDoctors);
 
-// Delete Doctors
+// Route to delete doctors
 routes.delete("/deleteDoctors", adminController.deleteDoctors);
 
-// Delete Clinics
+// Route to delete clinics
 routes.delete("/deleteClinics", adminController.deleteClinics);
 
-// Create Specialities
+// Route to create specialities
 routes.post("/createSpeciality", adminController.createSpeciality);
 
-// Search Doctors
-routes.get("/searchDoctor", adminController.searchDoctor)
+// Route to search for doctors
+routes.get("/searchDoctor", adminController.searchDoctor);
 
-// Search Clients
-routes.get("/searchClient", adminController.searchClients)
+// Route to search for clients
+routes.get("/searchClient", adminController.searchClients);
 
-// Search Clinics
-routes.get("/searchClinics", adminController.searchClinics)
+// Route to search for clinics
+routes.get("/searchClinics", adminController.searchClinics);
 
-
+// Exporting the configured routes
 module.exports = routes;
