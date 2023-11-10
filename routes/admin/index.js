@@ -7,14 +7,20 @@ const adminController = require("../../controllers/admin.controllers");
 // Route to get all clients
 routes.get("/getClients", adminController.getAllClients);
 
+// Route to get client by id
+routes.get("/getClientById/:id", adminController.getClientById);
+
 // Route to get all doctors
 routes.get("/getDoctors", adminController.getAllDoctors);
+
+// Route to get doctors by id
+routes.get("/getDoctorById/:id", adminController.getDoctorById);
 
 // Route to get all clinics
 routes.get("/getClinics", adminController.getAllClinics);
 
-// Route to delete clients (commented out for potential future use)
-// routes.delete("/deleteClients", adminController.deleteClients);
+// Route to get client by id
+routes.get("/getClinicById/:id", adminController.getClinicById);
 
 // Route to delete clients
 routes.delete("/deleteClients", adminController.deleteClients);

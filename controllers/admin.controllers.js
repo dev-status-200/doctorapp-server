@@ -19,6 +19,24 @@ exports.getAllClients = async (req, res) => {
   }
 };
 
+exports.getClientById = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params.id)
+  try {
+    const client = await db.Clients.findOne({where:{ id: id }});
+
+    if (!client) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+
+    res.json({ result: client, status: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+
 exports.getAllDoctors = async (req, res) => {
   console.log(req.headers);
   const page = parseInt(req.headers.page) || 0;
@@ -35,6 +53,23 @@ exports.getAllDoctors = async (req, res) => {
     res.json({ status: "success", result: result, totalItems: totalItems });
   } catch (error) {
     res.status(400).json({ status: "error" });
+  }
+};
+
+exports.getDoctorById = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params.id)
+  try {
+    const doctor = await db.Doctors.findOne({where:{ id: id }});
+
+    if (!doctor) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+
+    res.json({ result: doctor, status: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
 
@@ -56,6 +91,23 @@ exports.getAllClinics = async (req, res) => {
   }
 };
 
+exports.getClinicById = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params.id)
+  try {
+    const clinic = await db.Clinic.findOne({where:{ id: id }});
+
+    if (!clinic) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+
+    res.json({ result: clinic, status: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
 exports.approveDoctors = async (req, res) => {
   const { approved, id } = req.body;
   try {
@@ -67,7 +119,7 @@ exports.approveDoctors = async (req, res) => {
   } catch (error) {
     res.status(400).json({ status: "error" });
   }
-};
+}; 
 
 exports.approveClients = async (req, res) => {
   const { approved, id } = req.body;
@@ -83,10 +135,9 @@ exports.approveClients = async (req, res) => {
 };
 
 exports.deleteClients = async (req, res) => {
-  const { id } = req.headers;
   try {
     const result = await db.Clients.destroy({
-      where: { id: id },
+      where: { id: req.headers.id },
       force: true,
     });
     res.json({ status: "success", result: result });
@@ -262,3 +313,4 @@ exports.searchClinics = async (req, res) => {
     res.status(400).json({ status: "error" });
   }
 };
+
