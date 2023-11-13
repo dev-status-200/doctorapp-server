@@ -36,7 +36,6 @@ exports.getClientById = async (req, res) => {
   }
 };
 
-
 exports.getAllDoctors = async (req, res) => {
   console.log(req.headers);
   const page = parseInt(req.headers.page) || 0;
@@ -58,18 +57,21 @@ exports.getAllDoctors = async (req, res) => {
 
 exports.getDoctorById = async (req, res) => {
   const { id } = req.params;
-  console.log(req.params.id)
   try {
-    const doctor = await db.Doctors.findOne({where:{ id: id }});
-
-    if (!doctor) {
-      return res.status(404).json({ error: "Doctor not found" });
-    }
-
-    res.json({ result: doctor, status: "success" });
+    const result = await db.Doctors.findOne({
+      where: { id: id },
+      include: [
+        { model: db.Clinic },
+        { model: db.Education },
+        { model: db.Experience },
+        { model: db.Service },
+        { model: db.Specialization },
+        { model: db.Pricing },
+      ],
+    });
+    res.json({ status: "success", result:result});
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
+    res.status(400).json({ status: "error" });
   }
 };
 
