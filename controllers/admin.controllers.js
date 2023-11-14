@@ -21,9 +21,9 @@ exports.getAllClients = async (req, res) => {
 
 exports.getClientById = async (req, res) => {
   const { id } = req.params;
-  console.log(req.params.id)
+  console.log(req.params.id);
   try {
-    const client = await db.Clients.findOne({where:{ id: id }});
+    const client = await db.Clients.findOne({ where: { id: id } });
 
     if (!client) {
       return res.status(404).json({ error: "Doctor not found" });
@@ -69,7 +69,7 @@ exports.getDoctorById = async (req, res) => {
         { model: db.Pricing },
       ],
     });
-    res.json({ status: "success", result:result});
+    res.json({ status: "success", result: result });
   } catch (error) {
     res.status(400).json({ status: "error" });
   }
@@ -95,9 +95,9 @@ exports.getAllClinics = async (req, res) => {
 
 exports.getClinicById = async (req, res) => {
   const { id } = req.params;
-  console.log(req.params.id)
+  console.log(req.params.id);
   try {
-    const clinic = await db.Clinic.findOne({where:{ id: id }});
+    const clinic = await db.Clinic.findOne({ where: { id: id } });
 
     if (!clinic) {
       return res.status(404).json({ error: "Doctor not found" });
@@ -121,7 +121,7 @@ exports.approveDoctors = async (req, res) => {
   } catch (error) {
     res.status(400).json({ status: "error" });
   }
-}; 
+};
 
 exports.approveClients = async (req, res) => {
   const { approved, id } = req.body;
@@ -177,7 +177,7 @@ exports.deleteClinics = async (req, res) => {
 exports.createSpeciality = async (req, res) => {
   try {
     const result = await db.Specialities.create({
-      ...req.body
+      ...req.body,
     });
     res.json({ status: "success", result: result });
   } catch (error) {
@@ -316,3 +316,17 @@ exports.searchClinics = async (req, res) => {
   }
 };
 
+exports.resetAdminCredentials = async (req, res) => {
+  const { id, name, username, password } = req.body;
+  try {
+    const result = db.Admin.update({
+      name: name,
+      username: username,
+      password: password,
+      where: { id: id },
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};

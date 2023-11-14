@@ -49,5 +49,8 @@ routes.get("/searchClient", adminController.searchClients);
 // Route to search for clinics
 routes.get("/searchClinics", adminController.searchClinics);
 
+// Route to reset admin credentials
+routes.get("/resetAdmin", adminController.resetAdminCredentials);
+
 // Exporting the configured routes
 module.exports = routes;
