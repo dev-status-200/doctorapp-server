@@ -318,14 +318,28 @@ exports.searchClinics = async (req, res) => {
 
 exports.resetAdminCredentials = async (req, res) => {
   const { id, name, username, password } = req.body;
+  console.log(req.body);
   try {
-    const result = db.Admin.update({
-      name: name,
-      username: username,
-      password: password,
-      where: { id: id },
-    });
-    res.json({ status: "success", result: result });
+    if (password === "") {
+      const result = await db.Admins.update(
+        {
+          name: name,
+          username: username,
+        },
+        { where: { id: id } }
+      );
+      res.json({ status: "success", result: result });
+    } else {
+      const result = await db.Admins.update(
+        {
+          name: name,
+          username: username,
+          password: password,
+        },
+        { where: { id: id } }
+      );
+      res.json({ status: "success", result: result });
+    }
   } catch (error) {
     res.status(400).json({ status: "error" });
   }

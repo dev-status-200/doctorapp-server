@@ -50,7 +50,7 @@ routes.get("/searchClient", adminController.searchClients);
 routes.get("/searchClinics", adminController.searchClinics);
 
 // Route to reset admin credentials
-routes.get("/resetAdmin", adminController.resetAdminCredentials);
+routes.post("/resetAdmin", adminController.resetAdminCredentials);
 
 // Exporting the configured routes
 module.exports = routes;
