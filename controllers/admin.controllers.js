@@ -321,16 +321,21 @@ exports.resetAdminCredentials = async (req, res) => {
   console.log(req.body);
   try {
     if (password === "") {
-      const result = await db.Admins.update(
+      await db.Admins.update(
         {
           name: name,
           username: username,
         },
         { where: { id: id } }
       );
-      res.json({ status: "success", result: result });
+      const payload = {
+        loginId: id,
+        name: name,
+        username: username,
+      };
+      res.json({ status: "success", payload: payload });
     } else {
-      const result = await db.Admins.update(
+      await db.Admins.update(
         {
           name: name,
           username: username,
@@ -338,7 +343,12 @@ exports.resetAdminCredentials = async (req, res) => {
         },
         { where: { id: id } }
       );
-      res.json({ status: "success", result: result });
+      const payload = {
+        loginId: id,
+        name: name,
+        username: username,
+      };
+      res.json({ status: "success", payload: payload });
     }
   } catch (error) {
     res.status(400).json({ status: "error" });
