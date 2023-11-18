@@ -47,47 +47,38 @@ exports.login = (req, res) => {
 
 exports.loginAdmin = (req, res) => {
   const { password, username } = req.headers;
-  db.Admins.findOne({ where: { username: username, password: password } })
-    .then((data) => {
-      if (data) {
-        const payload = {
-          username: `${data.username}`,
-          loginId: `${data.id}`,
-          name: `${data.name}`,
-        };
-        jwt.sign(
-          payload,
-          "qwertyuiodoasjrfbheskfhdsxcvboiswueorghbfo3urbn23o9h9hjklzxcvbnm",
-          { expiresIn: "12h" },
-          (err, token) => {
-            if (err) return res.json({ message: err });
-            return res.json({
-              status: "success",
-              token: "BearerSplit" + token,
-              payload: payload,
-            });
-          }
-        );
-      } else {
-        return res.json({ status: "error" });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({
-        status: "error",
-        message:
-          //err.message ||
-          "Some error occurred while retrieving user.",
+  db.Admins.findOne({where:{username:username, password:password}})
+  .then(data => {
+    if(data) {
+      const payload = { username:`${data.username}`, loginId:`${data.id}`, name:`${data.name}` };
+      jwt.sign(payload, 'qwertyuiodoasjrfbheskfhdsxcvboiswueorghbfo3urbn23o9h9hjklzxcvbnm', {expiresIn:"12h"},
+      (err, token) => {
+        if(err) return res.json({message: err})
+        return res.json({
+          status:"success",
+          token: "BearerSplit"+token,
+          payload:payload
+        })
       });
+    } else { 
+      return res.json({status:"error"}) 
+    }
+  }).catch(err => {
+    res.status(500).json({
+      status:"error",
+      message:
+        //err.message || 
+        "Some error occurred while retrieving user."
     });
+  });
 };
 
 exports.createAdmin = (req, res) => {
   try {
-    db.Admins.create({ ...req.body });
-    res.json({ status: "success" });
+    db.Admins.create({...req.body})
+    res.json({status:"success"});
   } catch (error) {
-    res.status(400).json({ status: "success" });
+    res.status(400).json({status:"success"});
   }
 };
 
@@ -166,7 +157,7 @@ exports.clientLogin = (req, res) => {
     });
 };
 
-exports.clientOtpSend = async (req, res) => {
+exports.clientOtpSend = async(req, res) => {
   try {
     const check = await Clients.findOne({
       where: { email: req.headers.email },

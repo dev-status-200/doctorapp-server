@@ -51,7 +51,8 @@ module.exports = (sequelize, DataTypes) => {
         
 
         approved:{ 
-            type:DataTypes.STRING 
+            type:DataTypes.STRING,
+            defaultValue: "1",
         },
         verified:{ 
             type:DataTypes.STRING 

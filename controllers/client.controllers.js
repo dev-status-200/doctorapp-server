@@ -17,13 +17,15 @@ exports.create = async(req, res) => {
             password:password,
             dob:moment(`${req.body.client.year}-${req.body.client.month}-${req.body.client.day}`)
         })
-        await db.clientDiseases.upsert({...req.body.disease, ClientId:result.id})
-        await db.Relatives?.upsert({
-            ...req.body.relatives,
-            typeOfRelation:'spouse',
-            ClientId:result.id,
-            dob:moment(`${req.body.relatives.year}-${req.body.relatives.month}-${req.body.relatives.day}`)
-        })
+        await db.clientDiseases.upsert({...req.body.disease, ClientId:result.id});
+        if(req.body.relatives.firstName!='' && req.body.relatives.day && req.body.relatives.month && req.body.relatives.year){
+            await db.Relatives.upsert({
+                ...req.body.relatives,
+                typeOfRelation:'spouse',
+                ClientId:result.id,
+                dob:moment(`${req.body.relatives.year}-${req.body.relatives.month}-${req.body.relatives.day}`)
+            })
+        }
         if(req.body?.relatives?.children?.length>0){
             req.body.relatives.children.forEach((x)=>{
                 db.Relatives.upsert({
@@ -34,23 +36,12 @@ exports.create = async(req, res) => {
                 })
             })
         }
-        const content = `<p>Dear User</p><p>Your OTP Code is</p><h1>${password}</h1><p>Never share this with anyone!</p><p>Regards</p><p>Doctor App Team</p>`
-        await mailSender.sendMail({
-            from:'doctorappwork@gmail.com', to:req.body.client.email, subject:`Login Verification Code`, text:content
-        }, function(error, info){
-            console.log(mailOptions)
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-        res.json({status:"success"});
+        await res.json({status:"success"});
     } else {
         res.json({status:"email already exists!"});
     }
-
-    } catch (error) {    
+    } catch (error) {
+        console.log(error)
         res.status(400).json({status:"error"});
     }
 };

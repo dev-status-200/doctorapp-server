@@ -33,8 +33,8 @@ app.get("/", (req, res) => {
 
 // Setting up modular routes for different features
 app.use("/clients", clientRoutes);
-app.use("/doctor", doctorRoutes);
 app.use("/auth", authRoutes);
+app.use("/doctor", doctorRoutes);
 app.use("/admin", adminRoutes);
 
 // Configuring the server to listen on a specific port
