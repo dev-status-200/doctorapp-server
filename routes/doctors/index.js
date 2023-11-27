@@ -16,4 +16,7 @@ routes.get("/getSpecialications", docController.getSpecialization);
 // Get All Doctors
 routes.get("/searchDoctors", docController.searchDoctors);
 
+// Get All Doctors
+routes.get("/getDoctorProfile", docController.getDoctorProfile);
+
 module.exports = routes;
