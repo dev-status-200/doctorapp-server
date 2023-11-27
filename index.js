@@ -13,6 +13,7 @@ const doctorRoutes = require('./routes/doctors/');
 const clientRoutes = require('./routes/client/');
 const authRoutes = require('./routes/auth/');
 const adminRoutes = require('./routes/admin/');
+const locationRoutes = require('./routes/location/');
 
 // Middleware setup
 app.use(morgan('tiny')); // Logging middleware for request details
@@ -36,6 +37,7 @@ app.use("/clients", clientRoutes);
 app.use("/auth", authRoutes);
 app.use("/doctor", doctorRoutes);
 app.use("/admin", adminRoutes);
+app.use("/location", locationRoutes);
 
 // Configuring the server to listen on a specific port
 const PORT = process.env.PORT || 8080;
