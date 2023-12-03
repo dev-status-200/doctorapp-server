@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         email:{
             type:DataTypes.STRING 
         },
+        active:{
+            type:DataTypes.STRING,
+        },
         images:{
             type:DataTypes.JSON 
         },
