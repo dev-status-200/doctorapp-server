@@ -94,6 +94,7 @@ exports.getTopDoctors = async (req, res) => {
         { 
           model: db.Specialization,
           attributes:['id', 'name'],
+          where:{}
         },
       ],
     });
@@ -134,6 +135,27 @@ exports.getSpecialization = async (req, res) => {
     res.json({ status: "success", result: result });
   } catch (error) {
     console.log(error)
+    res.status(400).json({ status: "error" });
+  }
+};
+
+exports.getDoctorProfile = async (req, res) => {
+  const { id } = req.headers;
+  console.log(id)
+  try {
+    const result = await db.Doctors.findOne({
+      where: { id: id },
+      include: [
+        { model: db.Clinic },
+        { model: db.Education },
+        { model: db.Experience },
+        { model: db.Service },
+        { model: db.Specialization },
+        { model: db.Pricing },
+      ],
+    });
+    res.json({ status: "success", result: result });
+  } catch (error) {
     res.status(400).json({ status: "error" });
   }
 };
