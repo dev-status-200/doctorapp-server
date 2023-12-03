@@ -17,7 +17,7 @@ exports.login = (req, res) => {
       if (data) {
         const payload = {
           username: `${data.firstName} ${data.lastName}`,
-          loginId: `${data.id}`,
+          loginId: `${data.id}`,  
         };
         jwt.sign(
           payload,
@@ -73,10 +73,10 @@ exports.loginAdmin = (req, res) => {
   });
 };
 
-exports.createAdmin = (req, res) => {
+exports.createAdmin = async (req, res)  => {
   try {
-    db.Admins.create({...req.body})
-    res.json({status:"success"});
+    const createAdmin = await db.Admins.create({...req.body})
+    res.json({status:"success",admin:createAdmin});
   } catch (error) {
     res.status(400).json({status:"success"});
   }

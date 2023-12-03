@@ -5,6 +5,9 @@ const routes = require('express').Router();
 const adminController = require("../../controllers/admin.controllers");
 
 // Route to get all clients
+routes.get("/getAdmins", adminController.getAllAdmins);
+
+// Route to get all clients
 routes.get("/getClients", adminController.getAllClients);
 
 // Route to get client by id

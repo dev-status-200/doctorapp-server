@@ -19,6 +19,24 @@ exports.getAllClients = async (req, res) => {
   }
 };
 
+exports.getAllAdmins = async (req, res) => {
+  const page = parseInt(req.query.page) || 0;
+  const limit = parseInt(req.query.limit) || 5;
+
+  const zeroBasedPage = Math.max(0, page - 1);
+  const offset = zeroBasedPage * limit;
+  try {
+    const totalItems = await db.Admins.count();
+    const result = await db.Admins.findAll({
+      offset: offset,
+      limit: limit,
+    });
+    res.json({ status: "success", result: result, totalItems: totalItems });
+  } catch (error) {
+    res.status(400).json({ status: "error" });
+  }
+};
+
 exports.getClientById = async (req, res) => {
   const { id } = req.params;
   console.log(req.params.id);
