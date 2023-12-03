@@ -65,3 +65,22 @@ exports.getAppointmentById = async(req, res) => {
     res.json({status:"error"})
   }
 };
+
+exports.getAppointmentByDoctorId = async(req, res) => {
+  try {
+    const result = await Appointments.findAll({
+      where:{
+        DoctorId:req.headers.id,
+        status:'1',
+      },
+      include:[{
+        model:Clients,
+      }]
+    });
+
+    res.json({status:"success", result:result})
+    
+  } catch (error) {
+    res.json({status:"error"})
+  }
+};
