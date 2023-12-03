@@ -94,6 +94,7 @@ exports.getTopDoctors = async (req, res) => {
         { 
           model: db.Specialization,
           attributes:['id', 'name'],
+          where:{}
         },
       ],
     });
