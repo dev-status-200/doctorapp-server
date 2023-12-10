@@ -49,7 +49,9 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         
-
+        npi:{ 
+            type:DataTypes.STRING,
+        },
         approved:{ 
             type:DataTypes.STRING,
             defaultValue: "1",
