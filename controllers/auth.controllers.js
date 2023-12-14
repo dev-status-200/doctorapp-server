@@ -36,7 +36,7 @@ exports.login = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({
+      res.json({
         status: "error",
         message:
           //err.message ||

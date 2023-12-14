@@ -48,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.TEXT 
         },
 
-
         npi:{ 
             type:DataTypes.STRING,
         },
