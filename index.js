@@ -16,6 +16,7 @@ const doctorRoutes = require('./routes/doctors/');
 const clientRoutes = require('./routes/client/');
 const adminRoutes = require('./routes/admin/');
 const authRoutes = require('./routes/auth/');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 // Middleware setup
 app.use(morgan('tiny')); // Logging middleware for request details
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 // Setting up modular routes for different features
 app.use("/appointments", appointments);
+app.use('/payments', paymentRoutes);
 app.use("/clients", clientRoutes);
 app.use("/doctor", doctorRoutes);
 app.use("/admin", adminRoutes);

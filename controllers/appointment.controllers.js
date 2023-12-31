@@ -3,10 +3,9 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const { Clients } = require("../associations/clientAssociations");
 const { Doctors, Specialization } = require("../associations/doctorAssociations");
-
+const Op = Sequelize.Op;
 const { Appointments, AppointmentServices } = require("../associations/appointmentAssociations");
 
-const Op = Sequelize.Op;
 
 exports.createAppointment = async(req, res) => {
   console.log(req.body)
@@ -42,15 +41,16 @@ exports.createAppointment = async(req, res) => {
 };
 
 exports.getAppointmentById = async(req, res) => {
-  console.log(req.headers)
   try {
     const result = await Appointments.findAll({
       where:{
         ClientId:req.headers.id,
         status:'1',
+        DoctorId:{ [Op.ne]: null },
       },
       include:[{
         model:Doctors,
+        where:{},
         attributes:['firstName', 'lastName'],
         include:[{
           model:Specialization,

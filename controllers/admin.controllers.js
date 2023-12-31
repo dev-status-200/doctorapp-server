@@ -37,7 +37,6 @@ exports.getClientById = async (req, res) => {
 };
 
 exports.getAllDoctors = async (req, res) => {
-  console.log(req.headers);
   const page = parseInt(req.headers.page) || 0;
   const limit = parseInt(req.headers.limit) || 5;
 

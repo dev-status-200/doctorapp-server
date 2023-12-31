@@ -94,8 +94,12 @@ exports.getTopDoctors = async (req, res) => {
         { 
           model: db.Specialization,
           attributes:['id', 'name'],
-          where:{}
+          where:{},
         },
+        {
+          model:db.Pricing,
+          attributes:['price'],
+        }
       ],
     });
     res.json({ status: "success", result: result });
@@ -118,6 +122,10 @@ exports.searchDoctors = async (req, res) => {
           attributes:['id', 'name'],
           where:requirement,
         },
+        {
+          model:db.Pricing,
+          attributes:['price'],
+        }
       ],
     });
     res.json({ status: "success", result: result });
