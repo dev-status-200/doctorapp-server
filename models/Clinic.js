@@ -9,8 +9,19 @@ module.exports = (sequelize, DataTypes) => {
         email:{
             type:DataTypes.STRING 
         },
+        active:{
+            type:DataTypes.STRING,
+        },
         images:{
             type:DataTypes.JSON 
+        },
+        longitude:{
+            type: DataTypes.STRING,
+            defaultValue: "0.0",
+        },
+        latitude:{
+            type: DataTypes.STRING,
+            defaultValue: "0.0",
         },
     })
     return Clinic
