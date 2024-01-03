@@ -7,4 +7,7 @@ routes.post("/create", authController.createAppointment);
 // Get User Appointment Only
 routes.get("/getAppointmentById", authController.getAppointmentById);
 
+// Get User Appointment Only
+routes.get("/getAppointmentByDoctorId", authController.getAppointmentByDoctorId);
+
 module.exports = routes;
