@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         images:{
             type:DataTypes.JSON 
         },
+        website:{
+            type:DataTypes.STRING 
+        },
         longitude:{
             type: DataTypes.STRING,
             defaultValue: "0.0",
