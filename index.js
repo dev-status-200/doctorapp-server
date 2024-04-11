@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 
 // const { Appointments, AppointmentServices } = require("./associations/appointmentAssociations")
-
+// hellow rowlr
 // Importing route modules
 const appointments = require('./routes/appointments/');
 const doctorRoutes = require('./routes/doctors/');
